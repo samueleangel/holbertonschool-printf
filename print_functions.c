@@ -9,17 +9,17 @@
  */
 int handle_specifier(char specifier, va_list args)
 {
-    switch (specifier)
-    {
-        case 'c':
-            return print_char(va_arg(args, int));
-        case 's':
-            return print_string(va_arg(args, char *));
-        case '%':
-            return print_char('%');
-        default:
-            return (print_char('%') + print_char(specifier));
-    }
+	switch (specifier)
+	{
+		case 'c':
+			return (print_char(va_arg(args, int)));
+		case 's':
+			return (print_string(va_arg(args, char *)));
+		case '%':
+			return (print_char('%'));
+		default:
+			return (print_char('%') + print_char(specifier));
+	}
 }
 
 /**
@@ -29,7 +29,7 @@ int handle_specifier(char specifier, va_list args)
  */
 int print_char(char c)
 {
-    return (write(1, &c, 1));
+	return (write(1, &c, 1));
 }
 
 /**
@@ -39,16 +39,16 @@ int print_char(char c)
  */
 int print_string(char *str)
 {
-    int count = 0;
+	int count = 0;
 
-    if (!str)
-        str = "(null)";
+	if (!str)
+	str = "(null)";
 
-    while (*str != '\0')
-    {
-        count += print_char(*str);
-        str++;
-    }
+	while (*str != '\0')
+	{
+	count += print_char(*str);
+	str++;
+	}
 
-    return (count);
+	return (count);
 }

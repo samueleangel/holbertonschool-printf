@@ -10,30 +10,30 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-    int count = 0;
-    int i = 0;
-    
-    if (!format)
-        return (-1);
+	int count = 0;
+	int i = 0;
 
-    va_start(args, format);
+	if (!format)
+		return (-1);
 
-    while (format[i] != '\0')
-    {
-        if (format[i] == '%')
-        {
-            i++;
-            if (format[i] == '\0')
-                break;
-            count += handle_specifier(format[i], args);
-        }
-        else
-        {
-            count += print_char(format[i]);
-        }
-        i++;
-    }
+	va_start(args, format);
 
-    va_end(args);
-    return (count);
+	while (format[i] != '\0')
+	{
+		if (format[i] == '%')
+		{
+			i++;
+			if (format[i] == '\0')
+			break;
+			count += handle_specifier(format[i], args);
+		}
+		else
+		{
+			count += print_char(format[i]);
+		}
+			i++;
+		}
+
+	va_end(args);
+	return (count);
 }
