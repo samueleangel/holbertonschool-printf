@@ -11,7 +11,7 @@ int print_char(va_list args)
 {
 	char c = (char)va_arg(args, int);
 
-	if (write(1, &c, 1) == -1);
+	if (write(1, &c, 1) == -1)
 		return -1;
 	return (1);
 }
