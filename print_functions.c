@@ -63,20 +63,31 @@ int print_string(char *str)
  */
 int print_number(int n)
 {
-    int count = 0;
+ int count = 0;
+    unsigned int num;
     
-    if (n < 0)
+    /* Special case for INT_MIN */
+    if (n == INT_MIN)
     {
         count += print_char('-');
-        n = -n;
+        count += print_char('2');
+        num = 147483648;
+    }
+    else if (n < 0)
+    {
+        count += print_char('-');
+        num = -n;
+    }
+    else
+    {
+        num = n;
     }
 
-    if (n / 10)
-        count += print_number(n / 10);
+    if (num / 10)
+        count += print_number(num / 10);
 
-    count += print_char((n % 10) + '0');
+    count += print_char((num % 10) + '0');
     
     return (count);
 }
-
 
