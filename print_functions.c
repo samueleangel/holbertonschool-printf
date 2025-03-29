@@ -1,47 +1,53 @@
 #include "main.h"
 
 /**
- * print_char - Prints a character
- * @args: va_list containing character to print
- * Return: Number of characters printed or -1 on error
+ * handle_specifier - Handles format specifiers
+ * @spec: Specifier character
+ * @args: Argument list
+ * Return: Number of chars printed
  */
-int print_char(va_list args)
+int handle_specifier(const char spec, va_list args)
 {
-    char c = va_arg(args, int);
-    return write(1, &c, 1);
+    switch (spec)
+    {
+        case 'c':
+            return print_char(va_arg(args, int));
+        case 's':
+            return print_str(va_arg(args, char *));
+        case '%':
+            return print_char('%');
+        default:
+            return (print_char('%') + print_char(spec));
+    }
 }
 
 /**
- * print_string - Prints a string
- * @args: va_list containing string to print
- * Return: Number of characters printed or -1 on error
+ * print_char - Prints a single character
+ * @c: Character to print
+ * Return: Always 1 (success)
  */
-int print_string(va_list args)
+int print_char(char c)
 {
-	char *str = va_arg(args, char *);
-	int count = 0;
-
-    	if (!str)
-    	{
-        	str = "(null)";
-    	}
-
-	while (*str)
-    	{
-        	if (write(1, str++, 1) == -1)
-		return -1;
-        	count++;
-    	}
-	return count;
+    return (write(1, &c, 1));
 }
 
 /**
- * print_percent - Prints a percent sign
- * @args: va_list (unused)
- * Return: Number of characters printed or -1 on error
+ * print_str - Prints a string
+ * @str: String to print
+ * Return: Number of chars printed
  */
-int print_percent(va_list args)
+int print_str(char *str)
 {
-	(void)args;
-	return write(1, "%", 1);
+    int count = 0;
+
+    if (!str)
+        str = "(null)";
+
+    while (*str != '\0')
+    {
+        count += print_char(*str);
+        str++;
+    }
+
+    return (count);
 }
