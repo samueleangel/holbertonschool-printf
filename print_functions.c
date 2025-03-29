@@ -19,20 +19,20 @@ int print_char(va_list args)
 int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
-    int count = 0;
+	int count = 0;
 
-    if (!str)
-    {
-        str = "(null)";
-    }
+    	if (!str)
+    	{
+        	str = "(null)";
+    	}
 
-    while (*str)
-    {
-        if (write(1, str++, 1) == -1)
-            return -1;
-        count++;
-    }
-    return count;
+	while (*str)
+    	{
+        	if (write(1, str++, 1) == -1)
+		return -1;
+        	count++;
+    	}
+	return count;
 }
 
 /**
@@ -42,5 +42,6 @@ int print_string(va_list args)
  */
 int print_percent(va_list args)
 {
-    return write(1, "%", 1);
+	(void)args;
+	return write(1, "%", 1);
 }

@@ -10,25 +10,33 @@
 int _printf(const char *format, ...)
 {
 	va_list args;
-    int count = 0, i = 0;
+    int count = 0;
+    int i = 0;
     int ret = 0;
 
-    if (!format) return -1;
+    if (!format)
+        return -1;
 
     va_start(args, format);
 
-    while (format[i])
+    while (format[i] != '\0')
     {
-        if (format[i] == '%' && format[i + 1])
+        if (format[i] == '%' && format[i + 1] != '\0')
         {
             i++;
             switch (format[i])
             {
-                case 'c': ret = print_char(args); break;
-                case 's': ret = print_string(args); break;
-                case '%': ret = print_percent(); break;  // Llamada correcta
+                case 'c':
+                    ret = print_char(args);
+                    break;
+                case 's':
+                    ret = print_string(args);
+                    break;
+                case '%':
+                    ret = print_percent(args);
+                    break;
                 default:
-                    ret = write(1, &format[i-1], 1);
+                    ret = write(1, &format[i - 1], 1);
                     ret += write(1, &format[i], 1);
                     break;
             }
@@ -36,10 +44,12 @@ int _printf(const char *format, ...)
         }
         else
         {
-            ret = write(1, &format[i++], 1);
+            ret = write(1, &format[i], 1);
+            i++;
         }
 
-        if (ret == -1) return -1;
+        if (ret == -1)
+            return -1;
         count += ret;
     }
 
