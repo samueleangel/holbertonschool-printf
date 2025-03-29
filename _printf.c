@@ -9,10 +9,11 @@
 
 int _printf(const char *format, ...)
 {
-va_list args;
-int count = 0, i = 0;
+	va_list args;
+    int count = 0, i = 0;
+    int ret_val = 0;
 
-    if (format == NULL)
+    if (!format)
         return (-1);
 
     va_start(args, format);
@@ -22,35 +23,41 @@ int count = 0, i = 0;
         if (format[i] == '%')
         {
             i++;
-            if (!format[i]) /* Handle single % at end */
+            if (!format[i])
                 break;
 
             switch (format[i])
             {
                 case 'c':
-                    count += print_char(args);
+                    ret_val = print_char(args);
                     break;
                 case 's':
-                    count += print_string(args);
+                    ret_val = print_string(args);
                     break;
                 case '%':
-                    count += print_percent(args);
+                    ret_val = print_percent(args);
                     break;
                 default:
-                    write(1, &format[i - 1], 1);
-                    write(1, &format[i], 1);
-                    count += 2;
+                    ret_val = write(1, &format[i - 1], 1);
+                    ret_val += write(1, &format[i], 1);
                     break;
             }
+
+            if (ret_val == -1)
+                return (-1);
+            
+            count += ret_val;
         }
         else
         {
-            write(1, &format[i], 1);
-            count++;
+            ret_val = write(1, &format[i], 1);
+            if (ret_val == -1)
+                return (-1);
+            count += ret_val;
         }
         i++;
     }
 
     va_end(args);
-    return (count);
+    return (count);	
 }

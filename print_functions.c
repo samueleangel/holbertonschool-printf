@@ -1,54 +1,49 @@
 #include "main.h"
 
 /**
- * print_char - prints a character
- * @args: va_list containing the character to print
- *
- * Return: number of characters printed (always 1)
+ * print_char - Prints a character
+ * @args: va_list containing character to print
+ * Return: Number of characters printed or -1 on error
  */
-
 int print_char(va_list args)
 {
-	char c = (char)va_arg(args, int);
-
-	if (write(1, &c, 1) == -1)
-		return -1;
-	return (1);
+    char c = va_arg(args, int);
+    return write(1, &c, 1);
 }
 
 /**
- * print_string - prints a string
- * @args: va_list containing the string to print
- *
- * Return: number of characters printed
+ * print_string - Prints a string
+ * @args: va_list containing string to print
+ * Return: Number of characters printed or -1 on error
  */
 int print_string(va_list args)
 {
-	char *str = va_arg(args, char *);
-	int count = 0;
-	
-	if (!str)
-		str = "(null)";
+    char *str = va_arg(args, char *);
+    int count = 0;
+    int ret_val;
 
-	while (*str)
-	{
-		write(1, str, 1);
-		str++;
-		count++;
-	}
+    if (!str)
+        str = "(null)";
 
-	return (count);
+    while (*str)
+    {
+        ret_val = write(1, str, 1);
+        if (ret_val == -1)
+            return (-1);
+        count += ret_val;
+        str++;
+    }
+
+    return (count);
 }
 
 /**
- * print_percent - prints a percernt sign
+ * print_percent - Prints a percent sign
  * @args: va_list (unused)
- *
- * Return: number of characters printed( always 1)
+ * Return: Number of characters printed or -1 on error
  */
 int print_percent(va_list args)
 {
-	(void)args;
-	write(1, "%", 1);
-	return (1);
+    (void)args;
+    return write(1, "%", 1);
 }
