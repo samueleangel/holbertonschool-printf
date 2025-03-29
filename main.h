@@ -6,8 +6,8 @@
 #include <stdlib.h>
 
 int _printf(const char *format, ...);
-int handle_specifier(const char spec, va_list args);
-int print_char(va_list args);
-int print_string(va_list args);
+int print_char(char c);
+int print_string(char *str);
+int handle_specifier(char specifier, va_list args);
 
 #endif

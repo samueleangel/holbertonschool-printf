@@ -1,23 +1,24 @@
 #include "main.h"
 
+
 /**
  * handle_specifier - Handles format specifiers
- * @spec: Specifier character
+ * @specifier: The format specifier
  * @args: Argument list
- * Return: Number of chars printed
+ * Return: Number of characters printed
  */
-int handle_specifier(const char spec, va_list args)
+int handle_specifier(char specifier, va_list args)
 {
-    switch (spec)
+    switch (specifier)
     {
         case 'c':
             return print_char(va_arg(args, int));
         case 's':
-            return print_str(va_arg(args, char *));
+            return print_string(va_arg(args, char *));
         case '%':
             return print_char('%');
         default:
-            return (print_char('%') + print_char(spec));
+            return (print_char('%') + print_char(specifier));
     }
 }
 
@@ -32,11 +33,11 @@ int print_char(char c)
 }
 
 /**
- * print_str - Prints a string
+ * print_string - Prints a string
  * @str: String to print
- * Return: Number of chars printed
+ * Return: Number of characters printed
  */
-int print_str(char *str)
+int print_string(char *str)
 {
     int count = 0;
 
