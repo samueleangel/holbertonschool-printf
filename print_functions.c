@@ -9,20 +9,20 @@
  */
 int handle_specifier(char specifier, va_list args)
 {
-    switch (specifier)
-    {
-        case 'c':
-            return print_char(va_arg(args, int));
-        case 's':
-            return print_string(va_arg(args, char *));
-        case 'd':
-        case 'i':
-            return print_number(va_arg(args, int));
-        case '%':
-            return print_char('%');
-        default:
-            return (print_char('%') + print_char(specifier));
-    }
+	switch (specifier)
+	{
+		case 'c':
+			return (print_char(va_arg(args, int)));
+		case 's':
+			return (print_string(va_arg(args, char *)));
+		case 'd':
+		case 'i':
+			return (print_number(va_arg(args, int)));
+		case '%':
+			return (print_char('%'));
+		default:
+			return ((print_char('%') + print_char(specifier)));
+	}
 }
 
 /**
@@ -63,31 +63,29 @@ int print_string(char *str)
  */
 int print_number(int n)
 {
- int count = 0;
-    unsigned int num;
-    
-    /* Special case for INT_MIN */
-    if (n == INT_MIN)
-    {
-        count += print_char('-');
-        count += print_char('2');
-        num = 147483648;
-    }
-    else if (n < 0)
-    {
-        count += print_char('-');
-        num = -n;
-    }
-    else
-    {
-        num = n;
-    }
+	int count = 0;
+	unsigned int num;
 
-    if (num / 10)
-        count += print_number(num / 10);
+	if (n == INT_MIN)
+	{
+		count += print_char('-');
+		count += print_char('2');
+		num = 147483648;
+	}
+	else if (n < 0)
+	{
+		count += print_char('-');
+		num = -n;
+	}
+	else
+	{
+		num = n;
+	}
 
-    count += print_char((num % 10) + '0');
-    
-    return (count);
+	if (num / 10)
+		count += print_number(num / 10);
+
+	count += print_char((num % 10) + '0');
+
+	return (count);
 }
-
