@@ -11,7 +11,7 @@ int _printf(const char *format, ...)
 {
 	va_list args;
     int count = 0, i = 0;
-    int ret_val = 0;
+    int ret = 0;
 
     if (!format)
         return (-1);
@@ -20,44 +20,38 @@ int _printf(const char *format, ...)
 
     while (format[i])
     {
-        if (format[i] == '%')
+        if (format[i] == '%' && format[i + 1])
         {
             i++;
-            if (!format[i])
-                break;
-
             switch (format[i])
             {
                 case 'c':
-                    ret_val = print_char(args);
+                    ret = print_char(args);
                     break;
                 case 's':
-                    ret_val = print_string(args);
+                    ret = print_string(args);
                     break;
                 case '%':
-                    ret_val = print_percent(args);
+                    ret = print_percent();
                     break;
                 default:
-                    ret_val = write(1, &format[i - 1], 1);
-                    ret_val += write(1, &format[i], 1);
+                    ret = write(1, &format[i - 1], 1);
+                    ret += write(1, &format[i], 1);
                     break;
             }
-
-            if (ret_val == -1)
-                return (-1);
-            
-            count += ret_val;
+            i++;
         }
         else
         {
-            ret_val = write(1, &format[i], 1);
-            if (ret_val == -1)
-                return (-1);
-            count += ret_val;
+            ret = write(1, &format[i], 1);
+            i++;
         }
-        i++;
+
+        if (ret == -1)
+            return (-1);
+        count += ret;
     }
 
     va_end(args);
-    return (count);	
+    return (count);
 }
