@@ -9,17 +9,20 @@
  */
 int handle_specifier(char specifier, va_list args)
 {
-	switch (specifier)
-	{
-		case 'c':
-			return (print_char(va_arg(args, int)));
-		case 's':
-			return (print_string(va_arg(args, char *)));
-		case '%':
-			return (print_char('%'));
-		default:
-			return (print_char('%') + print_char(specifier));
-	}
+    switch (specifier)
+    {
+        case 'c':
+            return print_char(va_arg(args, int));
+        case 's':
+            return print_string(va_arg(args, char *));
+        case 'd':
+        case 'i':
+            return print_number(va_arg(args, int));
+        case '%':
+            return print_char('%');
+        default:
+            return (print_char('%') + print_char(specifier));
+    }
 }
 
 /**
@@ -52,3 +55,28 @@ int print_string(char *str)
 
 	return (count);
 }
+
+/**
+ * print_number - Prints an integer
+ * @n: The integer to print
+ * Return: Number of characters printed
+ */
+int print_number(int n)
+{
+    int count = 0;
+    
+    if (n < 0)
+    {
+        count += print_char('-');
+        n = -n;
+    }
+
+    if (n / 10)
+        count += print_number(n / 10);
+
+    count += print_char((n % 10) + '0');
+    
+    return (count);
+}
+
+
