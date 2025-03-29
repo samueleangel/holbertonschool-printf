@@ -19,35 +19,38 @@ int _printf(const char *format, ...)
 
 	while (format[i])
 	{
-		if (format[i])
+		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == '\0')
-				break;
-
-			switch (format[i])
+			if (format[i] == '%')
 			{
-				case 'c':
-					count += print_char(args);
+				i++;
+				if (!format[i])
 					break;
-				case 's':
-					count += print_string(args);
-					break;
-				default:
-					write(1, &format[i - 1], 1);
-					write(1, &format[i], 1);
-					count += 2;
-					break;
-			}
-		}
-		else
-		{
-			write(1, &format[i], 1);
-			count++;
-		}
-		i++;
-	}
 
-	va_end(args);
-	return (count);
+				switch (format[i])
+				{
+					case 'c':
+						count += print_char(args);
+						break;
+					case 's':
+						count += print_string(args);
+						break;
+					default:
+						write(1, &format[i - 1], 1);
+						write(1, &format[i], 1);
+						count += 2;
+						break;
+				}
+			}
+			else
+			{
+				write(1, &format[i], 1);
+				count++;
+			}
+			i++;
+		}
+		va_end(args);
+		return (count);
+	}
 }

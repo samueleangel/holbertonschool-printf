@@ -9,8 +9,10 @@
 
 int print_char(va_list args)
 {
-	char c = va_arg(args, int);
-	write(1, &c, 1);
+	char c = (char)va_arg(args, int);
+
+	if (write(1, &c, 1) == -1);
+		return -1;
 	return (1);
 }
 
@@ -24,8 +26,8 @@ int print_string(va_list args)
 {
 	char *str = va_arg(args, char *);
 	int count = 0;
-
-	if (str == NULL)
+	
+	if (!str)
 		str = "(null)";
 
 	while (*str)
