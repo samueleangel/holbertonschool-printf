@@ -18,19 +18,21 @@ int print_char(va_list args)
  */
 int print_string(va_list args)
 {
-    char *str = va_arg(args, char *);
+	char *str = va_arg(args, char *);
     int count = 0;
 
     if (!str)
+    {
         str = "(null)";
-	
-	while (*str)
-    	{
+    }
+
+    while (*str)
+    {
         if (write(1, str++, 1) == -1)
-            return (-1);
+            return -1;
         count++;
     }
-    return (count);
+    return count;
 }
 
 /**

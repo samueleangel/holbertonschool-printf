@@ -13,8 +13,7 @@ int _printf(const char *format, ...)
     int count = 0, i = 0;
     int ret = 0;
 
-    if (!format)
-        return (-1);
+    if (!format) return -1;
 
     va_start(args, format);
 
@@ -25,17 +24,11 @@ int _printf(const char *format, ...)
             i++;
             switch (format[i])
             {
-                case 'c':
-                    ret = print_char(args);
-                    break;
-                case 's':
-                    ret = print_string(args);
-                    break;
-                case '%':
-                    ret = print_percent();
-                    break;
+                case 'c': ret = print_char(args); break;
+                case 's': ret = print_string(args); break;
+                case '%': ret = print_percent(); break;  // Llamada correcta
                 default:
-                    ret = write(1, &format[i - 1], 1);
+                    ret = write(1, &format[i-1], 1);
                     ret += write(1, &format[i], 1);
                     break;
             }
@@ -43,15 +36,13 @@ int _printf(const char *format, ...)
         }
         else
         {
-            ret = write(1, &format[i], 1);
-            i++;
+            ret = write(1, &format[i++], 1);
         }
 
-        if (ret == -1)
-            return (-1);
+        if (ret == -1) return -1;
         count += ret;
     }
 
     va_end(args);
-    return (count);
+    return count;
 }
